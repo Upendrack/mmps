@@ -21,10 +21,18 @@ const login = async (req, res) => {
             return res.status(401).json({ message: "Invalid email or password" });
         }
 
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
+        const token = jwt.sign(
+            { id: user._id }, 
+            process.env.JWT_SECRET, 
+            { expiresIn: process.env.JWT_EXPIRES_IN || '24h' } // Fallback to 24h if env var is missing
+        );
         res.status(200).json({ message: "Login successful", token });
     } catch (error) {
-        res.status(500).json({ message: "Error logging in", error });
+        console.error("Login Error:", error); // Log the full error to the server console
+        res.status(500).json({ 
+            message: "Error logging in", 
+            error: error.message || "Internal Server Error" // Return the message string for JSON visibility
+        });
     }
 };
 
@@ -47,7 +55,11 @@ const register = async (req, res) => {
 
         res.status(201).json({ message: "User registered successfully", data: result });
     } catch (error) {
-        res.status(500).json({ message: "Error registering user", error });
+        console.error("Registration Error:", error); // Log the full error to the server console
+        res.status(500).json({ 
+            message: "Error registering user", 
+            error: error.message || "Internal Server Error" 
+        });
     }
 };
 
