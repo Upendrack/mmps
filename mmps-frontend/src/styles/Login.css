@@ -1,0 +1,166 @@
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #0f172a; /* Deep Navy Background */
+    background-image: 
+        radial-gradient(circle at 15% 50%, rgba(22, 78, 99, 0.15), transparent 30%),
+        radial-gradient(circle at 85% 30%, rgba(199, 164, 86, 0.1), transparent 30%);
+    font-family: 'Inter', sans-serif;
+    color: #f8fafc;
+}
+
+.login-container h1 {
+    margin-bottom: 24px;
+    color: #fbbf24; /* Gold Heading */
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+.login-container form {
+    display: flex;
+    flex-direction: column;
+    width: 380px;
+    background: #1e293b; /* Card Background */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 40px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), 0 0 15px rgba(251, 191, 36, 0.15); /* Subtle Gold Shadow */
+}
+
+.login-container input {
+    margin: 12px 0;
+    padding: 14px 18px;
+    background: #0f172a; /* Deepest Navy Input */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    font-size: 16px;
+    color: #e2e8f0;
+    transition: all 0.3s ease;
+}
+
+.login-container input:focus {
+    outline: none;
+    border-color: #fbbf24; /* Gold/Amber border */
+    box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.15); /* Gold Glow */
+    background: #1e293b;
+}
+
+.password-container {
+    position: relative;
+    width: 100%;
+}
+
+.password-container input {
+    width: 100%;
+    box-sizing: border-box;
+    padding-right: 48px;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 20px;
+    user-select: none;
+    color: #94a3b8;
+    z-index: 2;
+}
+
+.login-container button {
+    padding: 14px;
+    margin-top: 20px;
+    background: linear-gradient(135deg, #fbbf24, #d97706); /* Gold Gradient */
+    color: #000;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 48px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.login-container button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(251, 191, 36, 0.4);
+}
+
+.login-container button:disabled {
+    background: #475569;
+    color: #94a3b8;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Spinner Animation */
+.spinner {
+    border: 3px solid rgba(0, 0, 0, 0.1);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border-left-color: #000;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Shake Animation */
+.shake {
+    animation: shake 0.5s;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+
+.error-message {
+    color: #f87171;
+    background: rgba(248, 113, 113, 0.1);
+    border: 1px solid rgba(248, 113, 113, 0.2);
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.redirect-link {
+    margin-top: 24px;
+    font-size: 14px;
+    color: #94a3b8;
+    cursor: pointer;
+    text-align: center;
+}
+
+.redirect-link span {
+    color: #fbbf24;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.2s ease;
+}
+
+.redirect-link span:hover {
+    text-decoration: underline;
+    opacity: 0.8;
+}

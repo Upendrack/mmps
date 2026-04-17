@@ -1,0 +1,20 @@
+node_modules/
+mongodb/
+.env
+dist/
+build/
+app/
+android-ui-compose/
+.gradle/
+.idea/
+gradle/
+build/
+*.lnk
+*.pdf
+*.msi
+*.exe
+# Large installers and binaries
+*.msi
+*.exe
+*.pdb
+MongoDB/

@@ -1,0 +1,60 @@
+.recent-mistakes {
+    margin: 20px;
+    margin: 3rem 0;
+    padding: 0 1rem;
+}
+
+.recent-title {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid var(--brand-yellow);
+    padding-left: 1rem;
+}
+
+.mistake-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.mistake-card {
+    background: var(--bg-card);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.mistake-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+    color: var(--brand-blue);
+}
+
+.mistake-card p {
+    color: white;
+}
+
+.severity-high {
+    background-color: #ff9900; /* High (Orange) */
+    color: white;
+}
+
+.severity-medium {
+    background-color: #ffc107; /* Medium (Yellow) */
+    color: white;
+}
+
+.severity-low {
+    background-color: #28a745; /* Low (Green) */
+    color: white;
+}
+
+.mistake-card small {
+    color: #777;
+    font-size: 0.8rem;
+    display: block;
+    margin-top: 10px;
+}
