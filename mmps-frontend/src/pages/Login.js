@@ -26,8 +26,9 @@ const Login = () => {
             });
             
             if (response.status === 200) {
-                // If login successful -> set token and redirect to MMPS dashboard
+                // If login successful -> set token and user, then redirect to MMPS dashboard
                 localStorage.setItem('token', response.data.token);
+                localStorage.setItem('user', JSON.stringify(response.data.user));
                 navigate('/home');
             }
         } catch (err) {

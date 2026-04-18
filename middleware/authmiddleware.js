@@ -16,4 +16,14 @@ const authenticateUser = (req, res, next) => {
   }
 };
 
-module.exports = authenticateUser;
+// Middleware to check if the user is an admin
+const isAdmin = (req, res, next) => {
+  const adminEmail = process.env.ADMIN_EMAIL || 'admin@mmps.com'; // Fallback to placeholder
+  if (req.user && req.user.email === adminEmail) {
+    next();
+  } else {
+    res.status(403).json({ message: "Forbidden: You do not have permission to perform this action." });
+  }
+};
+
+module.exports = { authenticateUser, isAdmin };

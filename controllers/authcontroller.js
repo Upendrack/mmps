@@ -25,11 +25,19 @@ const login = async (req, res) => {
         }
 
         const token = jwt.sign(
-            { id: user._id }, 
+            { id: user._id, email: user.email }, 
             process.env.JWT_SECRET, 
             { expiresIn: process.env.JWT_EXPIRES_IN || '24h' } // Fallback to 24h if env var is missing
         );
-        res.status(200).json({ message: "Login successful", token });
+        res.status(200).json({ 
+            message: "Login successful", 
+            token,
+            user: {
+                id: user._id,
+                email: user.email,
+                name: user.name
+            }
+        });
     } catch (error) {
         console.error("Login Error:", error); // Log the full error to the server console
         res.status(500).json({ 
@@ -98,7 +106,7 @@ const googleLogin = async (req, res) => {
         }
 
         const token = jwt.sign(
-            { id: user._id },
+            { id: user._id, email: user.email },
             process.env.JWT_SECRET,
             { expiresIn: process.env.JWT_EXPIRES_IN || '24h' }
         );

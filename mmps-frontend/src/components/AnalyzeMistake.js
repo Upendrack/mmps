@@ -12,6 +12,11 @@ const AnalyzeMistake = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [errorMap, setErrorMap] = useState({}); // Tracking errors per mistake
     
+    // Admin Check
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const adminEmail = process.env.REACT_APP_ADMIN_EMAIL || 'admin@mmps.com';
+    const isAdmin = user.email === adminEmail;
+    
     // Mission: Loading Guard & Loop Protection
     const inProgressRef = useRef(new Set());
 
@@ -281,7 +286,7 @@ const AnalyzeMistake = () => {
                                                 <strong><span role="img" aria-label="magnifying glass">🔍</span> Root Cause Analysis</strong>
                                                 <div className="header-actions">
                                                     {badge && <span className="ai-insight-badge">{badge}</span>}
-                                                    {mistake.analysis && (
+                                                    {mistake.analysis && isAdmin && (
                                                         <button 
                                                             className="icon-refresh-btn" 
                                                             onClick={() => handleAnalyze(mistake, true)}
@@ -340,7 +345,7 @@ const AnalyzeMistake = () => {
                                                     <div className="placeholder-text">Waiting for data...</div>
                                                 )}
 
-                                                {!mistake.analysis && !isAnalyzing && !currentError && (
+                                                {!mistake.analysis && !isAnalyzing && !currentError && isAdmin && (
                                                     <button 
                                                         className="pill-btn analyze-btn"
                                                         onClick={() => handleAnalyze(mistake)}

@@ -15,6 +15,12 @@ const MistakeList = () => {
         severity: 'Low',
         category: 'General'
     });
+    
+    // Admin Check
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const adminEmail = process.env.REACT_APP_ADMIN_EMAIL || 'admin@mmps.com';
+    const isAdmin = user.email === adminEmail;
+    
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -205,7 +211,7 @@ const MistakeList = () => {
                             <th>Category</th>
                             <th>Severity</th>
                             <th>Date & Time</th>
-                            <th>Actions</th>
+                            {isAdmin && <th>Actions</th>}
                         </tr>
                     </thead>
                     <tbody>
@@ -277,10 +283,12 @@ const MistakeList = () => {
                                         <td className="time-cell">
                                             {formatTimestamp(mistake.timestamp)}
                                         </td>
-                                        <td className="action-buttons">
-                                            <button className="icon-btn edit-btn" onClick={(e) => handleEditClick(e, mistake)} title="Edit"><EditIcon /></button>
-                                            <button className="icon-btn delete-btn" onClick={(e) => handleDelete(e, mistake._id)} title="Delete"><DeleteIcon /></button>
-                                        </td>
+                                        {isAdmin && (
+                                            <td className="action-buttons">
+                                                <button className="icon-btn edit-btn" onClick={(e) => handleEditClick(e, mistake)} title="Edit"><EditIcon /></button>
+                                                <button className="icon-btn delete-btn" onClick={(e) => handleDelete(e, mistake._id)} title="Delete"><DeleteIcon /></button>
+                                            </td>
+                                        )}
                                     </>
                                 )}
                             </tr>

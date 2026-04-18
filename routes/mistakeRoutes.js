@@ -3,6 +3,7 @@ const router = express.Router();
 const { getDb } = require('../db'); // Importing the database connection utility
 const { ObjectId, Timestamp } = require('mongodb'); // Importing ObjectId for working with MongoDB document IDs
 const { GoogleGenerativeAI } = require('@google/generative-ai');
+const { authenticateUser, isAdmin } = require('../middleware/authmiddleware');
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ 
@@ -80,7 +81,7 @@ router.post('/create', async (req, res) => {
 });
 
 // Route to update a mistake by ID
-router.put('/:id', async (req, res) => {
+router.put('/:id', authenticateUser, isAdmin, async (req, res) => {
     try {
         const db = getDb();
         const id = req.params.id;
@@ -108,7 +109,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // Route to delete a mistake by ID
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authenticateUser, isAdmin, async (req, res) => {
     try {
         const db = getDb();
         const id = req.params.id;
