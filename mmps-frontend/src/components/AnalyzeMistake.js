@@ -65,7 +65,7 @@ const AnalyzeMistake = () => {
             }
         }
 
-        console.log(">>> [DEBUG] AI Request Fired for ID:", mistake._id);
+
         inProgressRef.current.add(mistake._id);
         setAnalyzingId(mistake._id);
         setErrorMap(prev => ({ ...prev, [mistake._id]: null })); // Reset error
@@ -102,7 +102,7 @@ const AnalyzeMistake = () => {
     const generateGlobalSummary = async () => {
         if (isGeneratingGlobal) return; // Loading Guard
         
-        console.log(">>> [DEBUG] AI Request Fired for ID: GLOBAL_SUMMARY");
+
         setIsGeneratingGlobal(true);
         try {
             const response = await api.post('/api/mistakes/summary-analysis');

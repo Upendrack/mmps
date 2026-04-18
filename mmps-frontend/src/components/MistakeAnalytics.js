@@ -17,7 +17,7 @@ const MistakeAnalytics = ({ mistakes }) => {
     const fetchInsights = async () => {
         if (isFetching || mistakes.length === 0) return;
         
-        console.log(">>> [DEBUG] AI Request Fired for ID: GLOBAL_ANALYTICS_SUMMARY");
+
         setIsFetching(true);
         try {
             const response = await api.post('/api/mistakes/summary-analysis');

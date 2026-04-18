@@ -14,7 +14,10 @@ connectToDb(); // Establish connection to MongoDB
 // Routes
 const authRoutes = require('./routes/authRoutes'); // Import authentication routes
 const mistakeRoutes = require('./routes/mistakeRoutes'); // Import mistakes routes
-app.use(cors())
+app.use(cors({
+    origin: 'https://mmps-nine.vercel.app',
+    credentials: true
+}));
 app.use(express.json());
 app.use('/api/auth', authRoutes); // Authentication endpoints (e.g., register, login)
 app.use('/api/mistakes', mistakeRoutes); // Mistakes endpoints (e.g., fetch, create, update)

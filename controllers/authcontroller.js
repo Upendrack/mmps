@@ -1,6 +1,9 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { getDb } = require('../db');
+const { OAuth2Client } = require('google-auth-library');
+
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const login = async (req, res) => {
     try {
@@ -63,4 +66,60 @@ const register = async (req, res) => {
     }
 };
 
-module.exports = { login, register };
+const googleLogin = async (req, res) => {
+    try {
+        const { tokenId } = req.body;
+
+        if (!tokenId) {
+            return res.status(400).json({ message: "Token ID is required" });
+        }
+
+        const ticket = await googleClient.verifyIdToken({
+            idToken: tokenId,
+            audience: process.env.GOOGLE_CLIENT_ID,
+        });
+
+        const { email, name, picture } = ticket.getPayload();
+
+        const db = getDb();
+        let user = await db.collection('users').findOne({ email });
+
+        if (!user) {
+            // Create a new user if not exists
+            const newUser = {
+                email,
+                name,
+                picture,
+                isGoogleUser: true,
+                createdAt: new Date()
+            };
+            const result = await db.collection('users').insertOne(newUser);
+            user = { ...newUser, _id: result.insertedId };
+        }
+
+        const token = jwt.sign(
+            { id: user._id },
+            process.env.JWT_SECRET,
+            { expiresIn: process.env.JWT_EXPIRES_IN || '24h' }
+        );
+
+        res.status(200).json({
+            message: "Google login successful",
+            token,
+            user: {
+                id: user._id,
+                email: user.email,
+                name: user.name,
+                picture: user.picture
+            }
+        });
+    } catch (error) {
+        console.error("Google Login Error:", error);
+        res.status(500).json({
+            message: "Google login failed",
+            error: error.message || "Internal Server Error"
+        });
+    }
+};
+
+module.exports = { login, register, googleLogin };
