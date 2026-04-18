@@ -66,7 +66,53 @@
     display: flex;
     flex-direction: column;
     gap: 24px;
-    margin-top: 20px;
+    margin-top: 10px;
+}
+
+.list-header-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.sort-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(30, 41, 59, 0.4);
+    padding: 8px 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+}
+
+.sort-container:hover {
+    border-color: rgba(251, 191, 36, 0.3);
+    background: rgba(30, 41, 59, 0.6);
+}
+
+.sort-container label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.sort-select {
+    background: transparent;
+    border: none;
+    color: #fbbf24;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    outline: none;
+    padding: 2px 5px;
+}
+
+.sort-select option {
+    background: #1e293b;
+    color: #f8fafc;
 }
 
 .mistake-analysis-row {

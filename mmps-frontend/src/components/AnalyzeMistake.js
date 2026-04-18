@@ -5,6 +5,7 @@ import '../styles/AnalyzeMistake.css';
 
 const AnalyzeMistake = () => {
     const [mistakes, setMistakes] = useState([]);
+    const [sortOrder, setSortOrder] = useState('newest');
     const [analyzingId, setAnalyzingId] = useState(null);
     const [globalSummary, setGlobalSummary] = useState('');
     const [isGeneratingGlobal, setIsGeneratingGlobal] = useState(false);
@@ -45,7 +46,11 @@ const AnalyzeMistake = () => {
     const fetchMistakes = async () => {
         try {
             const response = await api.get('/api/mistakes');
-            setMistakes(response.data);
+            const data = Array.isArray(response.data) ? response.data : [];
+            setMistakes(data.map(m => ({
+                ...m,
+                normalizedDate: new Date(m.createdAt || m.Date || m.date || m.timestamp || 0)
+            })));
         } catch (error) {
             console.error("Error fetching mistakes:", error);
         } finally {
@@ -165,6 +170,12 @@ const AnalyzeMistake = () => {
 
     const globalInfo = parseGlobal(globalSummary);
 
+    const sortedMistakes = [...mistakes].sort((a, b) => {
+        return sortOrder === 'newest' 
+            ? b.normalizedDate - a.normalizedDate 
+            : a.normalizedDate - b.normalizedDate;
+    });
+
     return (
         <div className="analyze-container">
             <div className="analyze-content">
@@ -214,6 +225,24 @@ const AnalyzeMistake = () => {
                     )}
                 </div>
 
+                {/* Mistakes List Header with Sort */}
+                {mistakes.length > 0 && (
+                    <div className="list-header-actions">
+                        <div className="sort-container">
+                            <label htmlFor="sort-order">Sort By:</label>
+                            <select 
+                                id="sort-order"
+                                className="sort-select"
+                                value={sortOrder}
+                                onChange={(e) => setSortOrder(e.target.value)}
+                            >
+                                <option value="newest">Newest First</option>
+                                <option value="oldest">Oldest First</option>
+                            </select>
+                        </div>
+                    </div>
+                )}
+
                 {/* Mistakes List */}
                 {mistakes.length === 0 ? (
                     <div style={{ textAlign: 'center', padding: '100px 0' }}>
@@ -221,7 +250,7 @@ const AnalyzeMistake = () => {
                     </div>
                 ) : (
                     <div className="mistake-list-rows">
-                        {mistakes.map((mistake) => {
+                        {sortedMistakes.map((mistake) => {
                             const { rootCause, solutions, badge, isStructured } = parseAnalysis(mistake.analysis);
                             const isAnalyzing = analyzingId === mistake._id;
                             const currentError = errorMap[mistake._id];
